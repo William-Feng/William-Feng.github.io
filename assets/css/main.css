@@ -3111,7 +3111,7 @@ input, select, textarea {
 		display: flex;
 		padding: 6em 0 2em 0 ;
 		background-attachment: fixed;
-		background-position: center;
+		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
 		border-bottom: 0 !important;
@@ -3695,9 +3695,6 @@ input, select, textarea {
 		}
 
 
-
-
-
 .tablink {
 	background-color: #40445d;
 	float: left;
@@ -3710,21 +3707,8 @@ input, select, textarea {
 	}
 	
 .tabcontent {
-/* color: white; */
 display: none;
 padding: 100px 20px;
-}
-  
-#Professional {
-	margin-bottom: -5em;
-}
-
-#Personal {
-	margin-bottom: -5em;
-}
-
-#Videos {
-	margin-bottom: -5em;
 }
 
 .more {display: none;}
@@ -3764,4 +3748,31 @@ padding: 100px 20px;
 }
 .top-link:hover svg {
 	fill: #242943;
+}
+
+#Professional {
+	margin-bottom: -5em;
+}
+
+#Personal {
+	margin-bottom: -5em;
+}
+
+#Videos {
+	margin-bottom: -5em;
+}
+
+.video_container {
+	position: relative;
+	height: 0;
+	padding-bottom: 56.25%;
+}
+
+.videos {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+	height: 100%;
+	border-radius: 1em;
 }
