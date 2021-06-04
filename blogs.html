@@ -50,6 +50,223 @@
 							</p>
 						</div>
 
+						<div class="container" style="padding-bottom: 2em; background-color: #2e3450">
+							<div class="inner">
+								<div class="blog" post="five">
+									<header class="major">
+										<h2>A Comprehensive Guide into Regex for Beginners</h2>
+									</header>
+									<p style="font-size: 18px; font-style: italic">
+										Published on 27/05/2021
+									</p>
+									<p>
+										We all know about how command F (or crtl+F) allows you to instantly search for a particular word within thousands of lines in a file or webpage.
+										But what if we wanted to search with more parameters on the results?
+										Is there a more powerful alternative to find matches straight from our terminal?
+										The answer is YES – and it’s Regex!
+										<br><br>
+										<span class="h3">What is Regex?</span>
+										<br>
+										A <strong>reg</strong>ular <strong>ex</strong>pression (or regex for short) is a string that specify search patterns, and is incredibly useful for extracting information from any text.
+										It is commonly used for ‘find and replace’ operations, web scraping and checking strings (such as validating emails or testing if there are any spelling errors in a word).
+										This blog post is a general guide into the basics of regex, with a question set provided at the end for you to test your understanding.
+										I suggest that you follow along and check out <a href="www.regex101.com">Regex101</a> or <a href="https://regexr.com/">RegExr</a> to write your own regex patterns and then testing them against some strings which you supply.
+										<span class="dots"></span><span class="more">
+										<br><br>
+										<span class="h2">Regex Syntax</span>
+										<br>
+										<span class="h3">Anchors</span>
+										<br>
+										Anchors do not match any character, but instead specify the position in a string that the regex should match.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>^</code> denotes the start of a string
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>$</code> denotes the end of a string
+										<br>
+										Let’s say you wanted to match the word ‘he’.
+										If you just have <code>he</code> as the regex, you’ll have a series of other words returned, since the command will literally return any string that contains ‘he’ anywhere.
+										Now, if we tried <code>^he</code>, then we’ll match words like ‘hear’ and ‘hexagon’, since this means we want ‘he’ to appear at the start of the string.
+										Similarly, if we tried <code>he$</code>, then we’ll match words like ‘loathe’ and ‘backache’ since it now means we want ‘he’ to appear at the end of the string.
+										Meanwhile, if we have both anchors inside the regex like <code>^he$</code>, then this means that we want to match all words which are strictly ‘he’.
+										<br><br>
+										<span class="h3">Character Sets</span>
+										<br>
+										A character set is used to match a single character out of several specified characters wrapped around square brackets.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>[]</code> to match any character inside the set
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>-</code> to denote a range inside a set
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>^</code> to exclude the characters inside a set <em>(not to be confused with its anchor meaning from above)</em>
+										<br>
+										For example, <code>[jmy]et</code> will match any of the words: jet, met and yet (again, remember that there are many other words that this regex could match, as there are no anchors).
+										We can also conveniently use ranges such as <code>[a-z]</code>, <code>[D-K]</code> and <code>[0-9]</code> to specify the corresponding letters or digits without having to list them out in an inefficient manner.
+										Now, what if we wanted all the characters except for a particular few? Say I wanted to match any character instead of the letters 'p', 'q', 'r', 's' and 't'.
+										In this case, we can write <code>[^p-t]</code>, where the caret symbol <code>^</code> negates the character set.
+										You may be wondering: doesn’t the <code>^</code> anchor specify the start of a string?
+										Well, the caret symbol has two meanings depending on the context (whether <code>^</code> is the first character of a regex or if it’s inside a pair of square brackets).
+										<br><br>
+										<span class="h3">Special Characters</span>
+										<br>
+										So far, we have only been restricted to literal characters, but regex also has a few characters with special meanings that enable this tool to be so effective in its pattern matching.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>.</code> matches any one character <em>(except a new line \n)</em>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>*</code> matches zero or more repetitions of the previous character
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>?</code> matches zero or one occurrences of the previous character
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>+</code> matches one or more occurrences of the previous character
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>{n}</code> matches n occurrences of the previous character
+										<br>
+										The period acts as a wildcard that matches any character (could be a letter, digit or symbol).
+										So <code>b.e</code> can match ‘bee’ and ‘bye’, as well as ‘b5e’ and ‘b!e’ if we are not restricted to a dictionary input.
+										Now, let’s consider the regex <code>.*</code>: it denotes having zero or more of any character, and this is the most common pattern you’ll encounter when writing regex.
+										Therefore, <code>^b.*e$</code> means that we want to find complete words starting with the letter ‘b’ and ending with the letter ‘e’.
+										This will return words including ‘be’, ‘beware’ and ‘brilliance’.
+										A demonstration of this with different test strings using Regex101 can be found in Figure 1 below.
+										I won’t go into too much depth into some of the other quantifier symbols above, since their usage is very similar to the asterisk above.
+										<br>
+										<span class="image normal"><img src="/assets/images/blog/21-05-27-fig1.png" alt="Different matches from the regex 'h.*t.r'"></span>
+										<em>Figure 1: Using Regex101 to highlight the different words that could be matched from a regex pattern</em>
+										<br><br>
+										However, what if we wanted to check whether a user created a valid 6-digit pin?
+										Something like <code>[0-9]+</code> will not work, since it would match even if the user entered in 4 digits.
+										One way is to have <code>[0-9][0-9][0-9][0-9][0-9][0-9]</code> but as you can see, this is very tedious and clunky.
+										Instead, we can specify the quantity by wrapping the number of repetitions around curly braces <code>{}</code> afterwards.
+										Thus, a simple solution to the given question would be to write <code>[0-9]{6}</code>.
+										<br><br>
+										<span class="h3">Alternation</span>
+										<br>
+										Alternation allows for matching a single regex out of several alternatives and can be treated as the union of strings.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>abc|xyz</code> matches either ‘abc’ or ‘xyz’
+										<br>
+										We use the pipe or vertical bar <code>|</code> symbol to match a group of characters on either side.
+										This is not to be confused with the character set above, since the characters inside the square brackets are only to denote a single character in the matching string.
+										Therefore, <code>cat|dog</code> will match either ‘cat’ or ‘dog’ whereas <code>[cat][dog]</code> will match strings including ‘cd’, ‘ad’ and ‘to’.
+										Note that you will need to use parentheses <code>()</code> if the alternation appears in the middle of a string.
+										As an example, <code>s(ol|am)e</code> will match ‘sole’ and ‘same’.
+										If you wrote <code>s[ol][am]e</code>, then ‘some’ would be matched instead.
+										<br><br>
+										<span class="h3">Escaping</span>
+										<br>
+										Since some characters have special meanings, we need a way to differentiate between their roles in regex syntax and their literal presence in a string.
+										This is where escaping comes in.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>\</code> escapes the meaning of a special character
+										<br>
+										Let’s say you wanted to return all the phone numbers on a website that exist in the format XXXX-XXXX.
+										One common mistake is to write the regex as <code>[0-9]{4}-[0-9]{4}</code> since the hyphen actually has a special meaning of indicating a range, and so the hyphen between two brackets makes no sense.
+										Instead, we need to escape its special meaning by writing <code>[0-9]{4}\-[0-9]{4}</code>.
+										As a fun fact, you would have to write <code>\\</code> if you wanted to match a literal backslash, since the first one escapes the special meaning of the second backslash.
+										<br><br>
+										<span class="h3">Flags</span>
+										<br>
+										Regular expressions are sometimes delimited with forward slashes <code>/</code> in certain programming languages and contexts.
+										They may have flags that affect the search, and here, I’ll be briefly describing the uses of the <code>g</code> and <code>i</code> flags.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>/regex/g</code> denotes global matching
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<code>/regex/i</code> denotes insensitive case</li>
+										<br>
+										By default, a regex will only return the first match, and so if you wanted to return multiple matches, you would need to enable the <code>g</code> flag.
+										Additionally, if you don&#39;t want to specify any difference between uppercase and lowercase in your regex matching, you can enable the <code>i</code> flag.
+										In Figure 2 below, the first two lines are not matched since the regex pattern is not case-sensitive, and only matches the third line since only the first match is returned.
+										<br>
+										<span class="image normal"><img src="/assets/images/blog/21-05-27-fig2.png" alt="Different matches from the regex 'awesome' with no flags"></span>
+										<em>Figure 2: Using Regex101 to highlight the matching when there are no flags enabled</em>
+										<br><br>
+										<span class="h2">Questions</span>
+										<br>
+										At this point, hopefully you’ve acquired a basic understanding of how to write regular expressions.
+										Now it’s time to put your skills into practice. Don’t worry if nothing really clicks just yet, as I’m sure you’ll get the hang of it once you attempt some of these questions.
+										<br><br>
+										First of all, <a href="/assets/images/blog/21-05-27-dictionary.txt" download="dictionary" style="border-bottom: dotted 1px">click here</a> to download a text file of the English dictionary.
+										<em>Note that there are many variations to a dictionary file, so please make sure that you download this version to correctly answer the following questions.</em>
+										<br><br>
+										Open up a new terminal and move to the directory containing the dictionary text file that you’ve just downloaded.
+										Directly from the command line, we use a command called <code>grep</code> in order to find matches using the regex.
+										As a general tip, we should also include the <code>-E</code> flag (or <code>egrep</code> for short) so that we can handle extended regular expressions with special characters.
+										Then, the regex should be enclosed in single quotation marks (we don’t need to delimit with slashes in this case), followed by the filename.
+										Therefore, the basic format for you to answer the following questions for a certain regex should be: <code>egrep ‘regex’ dictionary.txt</code>
+										<br><br>
+										We can find the number of occurrences from the match by piping (adding a vertical bar to) the output with <code>wc -l</code>, which prints the number of lines.
+										To display only the first or last ‘k’ results, pipe it with <code>head -n k</code> or <code>tail -n k</code> respectively, where ‘k’ is 10 by default.
+										<br>
+										For example, if we wanted to find out the number of words containing the letters ‘st’ consecutively, it would be written as: <code>egrep 'st' dictionary.txt | wc -l</code>
+										<br><br>
+										Now, it’s your turn! Have a go at answering the following questions. To make it slightly easier for you, I have provided the expected output beneath each of these questions.
+										If you are unsure how to do at a particular question, scroll down to find the sample solutions (hide them before attempting a question).
+										<br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>1.  How many words begin with the letter ‘z’?</strong><br><em>1043</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>2.  How many 3-letter words end with ‘at’?</strong><br><em>16</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>3.  How many words have exactly 20 letters?</strong><br><em>204</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>4.  How many words have the letter ‘q’ followed by a letter that is not ‘u’?</strong><br><em>67</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>5.  How many words do not have any vowels?</strong><br><em>219</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>6.  How many words have the double letters ‘ll’ or ‘mm’ or ‘nn’?</strong><br><em>16954</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>7.  How many words begin with a letter from the first half of the alphabet (‘a’ – ‘m’), followed by a letter from the second half of the alphabet (‘n’ – ‘z’), and then continues to alternate between letters from the first and second half of the alphabet?</strong><br><em>927</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>8.  List the first 10 words that begin with the letter ‘t’, with the letter ‘w’ as the 3rd last character.</strong><br><em>takeaway</em><br><em>takedowns</em><br><em>tallowed</em><br><em>tallower</em><br><em>talweg</em><br><em>taniwha</em><br><em>tarrowed</em><br><em>tattowed</em><br><em>tawas</em><br><em>tawed</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>9.  List the last 6 words with 5 vowels that appear in the order ‘a’, ‘e’, ‘i’, ‘o’, ‘u’.</strong><br><em>sacrilegiousnesses</em><br><em>sarraceniaceous</em><br><em>supercalifragilisticexpialidocious</em><br><em>ultrareligious</em><br><em>ultraserious</em><br><em>valerianaceous</em><br><br>
+										&nbsp;&nbsp;&nbsp;&nbsp;<strong>10. List all words with strictly 5 vowels that appear in the order ‘a’, ‘e’, ‘i’, ‘o’, ‘u’.</strong><br><em>abstemious</em><br><em>abstemiously</em><br><em>abstentious</em><br><em>arsenious</em><br><em>caesious</em><br><em>facetious</em><br><em>facetiously</em>
+										<br><br>
+										<span class="h2">Sample Solutions</span>
+										<br><br>
+										<button class="button primary small" onclick="myFunction()">Show/Hide Code</button>
+										<span id="Solutions" style="display:none">
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;&nbsp;<code>egrep &#39;^z&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;&nbsp;<code>egrep &#39;^.at$&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;&nbsp;<code>egrep &#39;^[a-z]{20}$&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;4.&nbsp;&nbsp;<code>egrep &#39;q[^u]&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;5.&nbsp;&nbsp;<code>egrep &#39;^[^aeiou]*$&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;6.&nbsp;&nbsp;<code>egrep &#39;ll|mm|nn&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;7.&nbsp;&nbsp;<code>egrep &#39;^([a-m][n-z])*$&#39; dictionary.txt | wc -l</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;8.&nbsp;&nbsp;<code>egrep &#39;^t.*w..$&#39; dictionary.txt | head</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;9.&nbsp;&nbsp;<code>egrep &#39;a.*e.*i.*o.*u&#39; dictionary.txt | tail -n 6</code>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;10.&nbsp;<code>egrep &#39;^[^aeiou]*a[^aeiou]*e[^aeiou]*i[^aeiou]*o[^aeiou]*u[^aeiou]*$&#39; dictionary.txt</code>
+										</span>
+										<br><br>
+										<em>Note that we should technically use <code>[a-z]</code> instead of the <code>.</code> wildcard to specify that we want to begin with a letter, but it’s fine in this case since we are in the context of a dictionary (i.e. there would be no numbers or other symbols anyways).</em></li>
+										<br>
+										<em>Another comment is that we do not need any flags for this purpose, since all the words are on a separate line and in lower case.</em>
+										<br><br>
+										<span class="h3">Conclusion</span>
+										<br>
+										If you could make it all the way, especially as a beginner – congratulations!
+										Well done for having an attempt at the questions, and don’t be let down if you weren’t able to complete some of them (after all, they’re supposed to be challenging).
+										Regex is such a powerful tool, so of course, the content covered in this guide has only been the tip of the iceberg.
+										If you have found it interesting, please take the effort to dive deeper into aspects such as bracket capturing, greedy matching, and lookaheads.
+										Be sure to check out some of the provided links below for further references, examples, and more advanced topics.
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="https://www.sitepoint.com/learn-regex/" style="border-bottom: dotted 1px">https://www.sitepoint.com/learn-regex/</a>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285" style="border-bottom: dotted 1px">https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285</a>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="https://www.keycdn.com/support/regex-cheatsheet" style="border-bottom: dotted 1px">https://www.keycdn.com/support/regex-cheatsheet</a>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="https://www.regular-expressions.info/tutorial.html" style="border-bottom: dotted 1px">https://www.regular-expressions.info/tutorial.html</a>
+										<br>
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="https://www.rexegg.com/regex-python.html" style="border-bottom: dotted 1px">https://www.rexegg.com/regex-python.html</a>
+										<br><br>
+										<em>I uploaded this article to the UNSW DataSoc website, and can be accessed at <a href="https://unswdata.com/blog/2021/05/27/a-comprehensive-guide-into-regex-for-beginners/" style="border-bottom: dotted 1px">this link</a></em>.
+										</span>
+									</p>
+									<button onclick="readMore('five')" class="myBtn">Read more</button>
+								</div>
+							</div>
+						</div>
+
 						<div class="container" style="padding-bottom: 2em; background-color: #333856">
 							<div class="inner">
 								<div class="blog" post="four">
@@ -87,11 +304,11 @@
 										Although this field is an amalgamation of computing, mathematics and business, the career pathways do not require the same level of expertise.
 										Having said that, it would be worthwhile to have some fundamental knowledge in:
 										<br>
-										&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Programming</strong> (Python and R, with their included libraries, are most commonly used for data wrangling and analysis)
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Programming</strong> (Python and R, with their included libraries, are most commonly used for data wrangling and analysis)
 										<br>
-										&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Statistics</strong> (maths forms the foundation of building various models and performing quantitative analysis)
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Statistics</strong> (maths forms the foundation of building various models and performing quantitative analysis)
 										<br>
-										&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Data Visualisation</strong> (representing data in a graphical format is necessary to easily identify and understand trends)
+										&nbsp;&nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Data Visualisation</strong> (representing data in a graphical format is necessary to easily identify and understand trends)
 										<br><br>
 										All this might sound overwhelming at first, especially if you’re trying to learn it independently – but it’s all part of the learning process.
 										There are several free online courses (such as Coursera, Udemy, Udacity) where you can go at your own pace.
@@ -318,9 +535,8 @@
 									</p>
 									<p>
 										Welcome to my first blog post!<br><br>
-										“So tell me about yourself…” This is one of the most generic interview questions and I guess that’s fair enough, because the other person doesn’t even know who you are.
-										How should I answer that? What’s a way that really makes me stand out? Would being an average student studying computer science
-										<span class="dots">...</span><span class="more">just like every other candidate really be ideal?
+										“So tell me about yourself…” This is one of the most generic interview questions and I guess that’s fair enough, because the interviewer hasn't even met you before.
+										But how should I answer that? What’s a way that really makes me stand out? Would being an average student studying computer science<span class="dots">...</span><span class="more"> just like every other candidate really be ideal?
 										<br><br>
 										<em>Now I haven’t had many interviews (or at least formal ones) and in relation to everything that I say overall, please note that these are only the opinions of an individual who still has much to learn and experience in life.</em>
 										<br><br>
@@ -383,6 +599,17 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script>
+				function myFunction() {
+					var x = document.getElementById("Solutions");
+					if (x.style.display === "none") {
+					x.style.display = "block";
+					} else {
+					x.style.display = "none";
+					}
+				}
+			</script>
+				
 			<script>
 				function readMore(post) {
 					let dots = document.querySelector(`.blog[post="${post}"] .dots`);
