@@ -1900,6 +1900,12 @@ input, select, textarea {
 				filter: blur(2px);
 			}
 
+		.image.normal img {
+			display: block;
+			margin: 1em 0.25em 0.5em 0.25em;
+			width: 100%;
+		}
+		
 		.container {
 			position:relative;
 		}
@@ -2344,7 +2350,6 @@ input, select, textarea {
 				position: absolute;
 				right: 1.5em;
 				top: 0;
-				vertical-align: middle;
 				width: 36px;
 			}
 
@@ -2892,7 +2897,6 @@ input, select, textarea {
 				line-height: inherit;
 				padding: 0 0.75em;
 				position: relative;
-				vertical-align: middle;
 			}
 
 				#header nav a:last-child {
@@ -2914,7 +2918,6 @@ input, select, textarea {
 						position: absolute;
 						right: 1.5em;
 						top: 0;
-						vertical-align: middle;
 						width: 24px;
 					}
 
@@ -3532,7 +3535,6 @@ input, select, textarea {
 			text-align: right;
 			text-indent: 8em;
 			top: 0;
-			vertical-align: middle;
 			white-space: nowrap;
 			width: 8em;
 		}
@@ -3610,6 +3612,17 @@ padding: 100px 20px;
 }
 
 .more {display: none;}
+.h2 {font-size: 1.5em;
+	color: #ffffff;
+	font-weight: 600;
+	line-height: 1.65;
+	margin: 0 0 1em 0;}
+
+@media screen and (max-width: 736px) {
+	.h2 {
+		font-size: 1.4em;
+	}
+}
 .h3 {font-size: 1.35em;
 	color: #ffffff;
 	font-weight: 600;
